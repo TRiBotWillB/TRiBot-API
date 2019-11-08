@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="dependancies">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Library/Application Support/tribot/dependancies" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/Library/Application Support/tribot/dependancies" recursive="false" />
+  </library>
+</component>
