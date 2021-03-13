@@ -70,6 +70,11 @@ public class InventoryUtil {
         }
     }
 
+    public static boolean hasSelected(String itemName) {
+        String selected = Game.getSelectedItemName();
+        return (Game.getUptext().contains(itemName + " ->") || Game.getUptext().contains("Cancel")) && selected != null && selected.equals(itemName);
+    }
+
     public static boolean containsAllNoted(HashMap<String, Integer> items) {
         return MapUtil.mapContainsMap(getRequiredItemsInInventory(true, items), items);
     }

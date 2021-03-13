@@ -4,6 +4,7 @@ import org.tribot.api.Timing;
 import org.tribot.api.util.abc.ABCProperties;
 import org.tribot.api.util.abc.ABCUtil;
 import org.tribot.api2007.Combat;
+import scripts.api.data.ScriptVars;
 
 /**
  * Created by willb on 13/02/2016.
@@ -61,7 +62,11 @@ public class Antiban {
     }
 
     public void sleepReactionTime(boolean hovering) {
-        final int reaction_time = getReactionTime(hovering);
+        ScriptVars vars = ScriptVars.get();
+
+        float modifier = vars == null ? 1 : vars.getSleepTimeModifier();
+
+        final int reaction_time = (int) Math.floor(getReactionTime(hovering) / modifier);
 
         try {
             getABCUtil().sleep(reaction_time);

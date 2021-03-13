@@ -10,11 +10,14 @@ import org.tribot.api2007.types.RSCharacter;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSNPC;
 import org.tribot.api2007.types.RSPlayer;
+import scripts.dax_api.shared.helpers.InterfaceHelper;
 import scripts.dax_api.walker_engine.Loggable;
 import scripts.dax_api.walker_engine.WaitFor;
-import scripts.dax_api.shared.helpers.InterfaceHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -63,11 +66,11 @@ public class NPCInteraction implements Loggable {
      * @param options
      * @return
      */
-    public static boolean clickNpcAndWaitChat(Filter<RSNPC> rsnpcFilter, String[] options) {
-        return clickNpcAndWait(rsnpcFilter, options) && waitForConversationWindow();
+    public static boolean clickNpcAndWaitChat(Filter<RSNPC> rsnpcFilter, String... options) {
+        return clickNpc(rsnpcFilter, options) && waitForConversationWindow();
     }
 
-    public static boolean clickNpcAndWait(Filter<RSNPC> rsnpcFilter, String[] options) {
+    public static boolean clickNpc(Filter<RSNPC> rsnpcFilter, String... options) {
         RSNPC[] rsnpcs = NPCs.findNearest(rsnpcFilter);
         if (rsnpcs.length < 1) {
             getInstance().log("Cannot find NPC.");
@@ -114,26 +117,24 @@ public class NPCInteraction implements Loggable {
 
             General.sleep(General.randomSD(350, 2250, 775, 350));
             getInstance().log("Replying with option: " + selectableOptions.get(0).getText());
-            Keyboard.typeString(selectableOptions.get(0).getComponentIndex() + "");
+            Keyboard.typeString(selectableOptions.get(0).getIndex() + "");
             waitForNextOption();
         }
-    }
-
-    public static void handleConversation(){
-        handleConversation(new String[]{});
     }
 
     public static void handleConversation(String... options){
         getInstance().log("Handling... " + Arrays.asList(options));
         List<String> blackList = new ArrayList<>();
         int limit = 0;
-        while (limit++ < 25){
+        while (limit++ < 50){
             if (WaitFor.condition(General.random(650, 800), () -> isConversationWindowUp() ? WaitFor.Return.SUCCESS : WaitFor.Return.IGNORE) != WaitFor.Return.SUCCESS){
+                getInstance().log("Conversation window not up.");
                 break;
             }
 
             if (getClickHereToContinue() != null){
                 clickHereToContinue();
+                limit = 0;
                 continue;
             }
 
@@ -150,10 +151,15 @@ public class NPCInteraction implements Loggable {
                 General.sleep(General.randomSD(350, 2250, 775, 350));
                 getInstance().log("Replying with option: " + selected.getText());
                 blackList.add(selected.getText());
-                Keyboard.typeString(selected.getComponentIndex() + "");
+                Keyboard.typeString(selected.getIndex() + "");
                 waitForNextOption();
+                limit = 0;
                 break;
             }
+            General.sleep(10,20);
+        }
+        if(limit > 50){
+            getInstance().log("Reached conversation limit.");
         }
     }
 
@@ -206,7 +212,8 @@ public class NPCInteraction implements Loggable {
                 return text != null && text.length() > 0;
             }).collect(Collectors.toList());
             if (details.size() > 0) {
-                getInstance().log("Conversation Options: [" + details.stream().map(RSInterface::getText).collect(Collectors.joining(", ")) + "]");
+                getInstance().log("Conversation Options: [" + details.stream().map(RSInterface::getText).collect(
+		                Collectors.joining(", ")) + "]");
                 return details;
             }
         }
@@ -232,7 +239,8 @@ public class NPCInteraction implements Loggable {
      */
     private static List<RSInterface> getAllOptions(String regex){
         List<RSInterface> list = getConversationDetails();
-        return list != null ? list.stream().filter(rsInterface -> rsInterface.getText().matches(regex)).collect(Collectors.toList()) : null;
+        return list != null ? list.stream().filter(rsInterface -> rsInterface.getText().matches(regex)).collect(
+		        Collectors.toList()) : null;
     }
 
     /**
@@ -240,10 +248,11 @@ public class NPCInteraction implements Loggable {
      * @param options
      * @return list of conversation clickable options that is contained in options.
      */
-    private static List<RSInterface> getAllOptions(String[] options){
+    private static List<RSInterface> getAllOptions(String... options){
         final List<String> optionList = Arrays.stream(options).map(String::toLowerCase).collect(Collectors.toList());
         List<RSInterface> list = getConversationDetails();
-        return list != null ? list.stream().filter(rsInterface -> optionList.contains(rsInterface.getText().trim().toLowerCase())).collect(Collectors.toList()) : null;
+        return list != null ? list.stream().filter(rsInterface -> optionList.contains(rsInterface.getText().trim().toLowerCase())).collect(
+		        Collectors.toList()) : null;
     }
 
     @Override

@@ -40,6 +40,10 @@ public class Sprites {
         return null;
     }
 
+    public static String getItemSpriteUrl(int id) {
+        return "http://cdn.rsbuddy.com/items/" + id + ".png";
+    }
+
     public static java.awt.Image getSkillImage(Images.SkillImage skillImage) {
         String fileName = skillImage.name() + ".png", filePath = ITEM_IMAGE_DIRECTORY + fileName;
         try {

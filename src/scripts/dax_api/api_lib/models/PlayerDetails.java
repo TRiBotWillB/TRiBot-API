@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import org.tribot.api2007.*;
 import org.tribot.api2007.types.RSVarBit;
-import scripts.dax_api.shared.helpers.WorldHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,12 +22,31 @@ public class PlayerDetails {
         List<IntPair> equipment = Arrays.stream(Equipment.getItems())
                 .map(rsItem -> new IntPair(rsItem.getID(), rsItem.getStack())).collect(Collectors.toList());
 
-        List<IntPair> settings = Stream.of(176, 32, 71, 273, 144, 63, 179, 145, 68, 655, 10, 964, 399, 869, 314, 794,
-                440, 622, 131, 335, 299, 896, 671, 810, 17, 11, 347, 302, 111, 116, 482, 307, 165, 150, 425, 365, 1630)
-                .map(value -> new IntPair(value, Game.getSetting(value))).distinct().collect(Collectors.toList());
+        List<IntPair> settings = Stream.of(10, 11, 17, 32, 63, 68, 71, 101, 111, 116, 131, 144, 145, 150, 165, 176,
+            179, 273, 299, 302, 307, 314, 335, 347, 351, 365, 371, 399, 425, 437, 440, 482, 622, 655, 671, 794, 810,
+            869, 896, 964, 1630, 1671, 1672)
+                                       .map(value -> new IntPair(value, Game.getSetting(value))).distinct().collect(Collectors.toList());
 
-        List<IntPair> varbit = Arrays.stream(new int[]{5087, 5088, 5089, 5090, 4895})
-                .mapToObj(value -> new IntPair(value, RSVarBit.get(value).getValue())).distinct().collect(Collectors.toList());
+        List<IntPair> varbit = Arrays.stream(new int[]{
+            192,
+            199,
+            357,
+            2310,
+            2328,
+            3741,
+            4538,
+            4566,
+            4885,
+            4895,
+            4897,
+            5087,
+            5088,
+            5089,
+            5090,
+            5810
+        })
+                .mapToObj(value -> new IntPair(value, RSVarBit.get(value).getValue())).distinct().collect(
+				        Collectors.toList());
 
         return new PlayerDetails(
                 Skills.getActualLevel(Skills.SKILLS.ATTACK),
@@ -47,7 +65,7 @@ public class PlayerDetails {
                 Skills.getActualLevel(Skills.SKILLS.SMITHING),
                 Skills.getActualLevel(Skills.SKILLS.MINING),
                 Skills.getActualLevel(Skills.SKILLS.HERBLORE),
-                Skills.getActualLevel(Skills.SKILLS.AGILITY),
+                Skills.getCurrentLevel(Skills.SKILLS.AGILITY),
                 Skills.getActualLevel(Skills.SKILLS.THIEVING),
                 Skills.getActualLevel(Skills.SKILLS.SLAYER),
                 Skills.getActualLevel(Skills.SKILLS.FARMING),
@@ -56,7 +74,7 @@ public class PlayerDetails {
                 Skills.getActualLevel(Skills.SKILLS.CONSTRUCTION),
                 settings,
                 varbit,
-                WorldHelper.isMember(WorldHopper.getWorld()),
+                WorldHopper.isMembers(WorldHopper.getWorld()),
                 equipment,
                 inventory
         );

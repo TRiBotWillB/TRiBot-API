@@ -4,6 +4,7 @@ import org.tribot.api.Timing;
 import org.tribot.api2007.Interfaces;
 import org.tribot.api2007.types.RSInterface;
 import org.tribot.api2007.types.RSInterfaceChild;
+import org.tribot.api2007.types.RSInterfaceComponent;
 import scripts.api.Timing07;
 
 import java.util.Arrays;
@@ -18,6 +19,13 @@ public class InterfaceUtil {
 
         return inter != null && !inter.isHidden() && inter.click();
     }
+
+    public static boolean clickInterfaceComponent(int masterID, int childID, int componentID) {
+        RSInterface inter = Interfaces.get(masterID, childID, componentID);
+
+        return inter != null && !inter.isHidden() && inter.click();
+    }
+
 
     public static boolean closeInterfaceExists() {
         RSInterface[] all = Interfaces.getAll();

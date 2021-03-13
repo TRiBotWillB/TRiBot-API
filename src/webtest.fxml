@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.WebView?>
+
+
+<WebView fx:id="web" fx:controller="scripts.Farmer.WebViewController" minHeight="800.0" minWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" />

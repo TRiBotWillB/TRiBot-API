@@ -4,15 +4,21 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-
+@Deprecated
 public class WorldHelper {
 
     private static WorldHelper instance = null;
     private Map<Integer, World> worldList;
 
     private WorldHelper() {
+        updateWorldList();
+    }
+
+    private void updateWorldList(){
         try {
             worldList = loadWorldList();
         } catch (IOException e){
@@ -25,7 +31,13 @@ public class WorldHelper {
     }
 
     public static Map<Integer, World> getWorldList(){
-        return Collections.unmodifiableMap(getInstance().worldList);
+        try {
+            return Collections.unmodifiableMap(getInstance().worldList);
+        } catch(Exception e){
+            e.printStackTrace();
+            getInstance().updateWorldList();
+        }
+        return new HashMap<>();
     }
 
     public static boolean isSkillTotal(int worldNumber) {
@@ -36,6 +48,17 @@ public class WorldHelper {
     public static boolean isMember(int worldNumber) {
         World world = getWorld(worldNumber);
         return world != null && world.isMember();
+    }
+
+
+    public static String getActivity(int worldNumber) {
+        World world = getWorld(worldNumber);
+        return world != null ? world.getActivity() : null;
+    }
+
+    public static boolean hasActivity(int worldNumber) {
+        World world = getWorld(worldNumber);
+        return world != null && world.getActivity() != null && world.getActivity().length() > 2;
     }
 
     public static boolean isDeadMan(int worldNumber) {

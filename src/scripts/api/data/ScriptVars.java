@@ -10,6 +10,8 @@ public abstract class ScriptVars {
     private TaskScript script;
     private SkillsTracker skillsTracker;
 
+    private float sleepTimeModifier = 1;
+
     protected ScriptVars(TaskScript script) {
         this.script = script;
     }
@@ -40,5 +42,13 @@ public abstract class ScriptVars {
 
     public void setSkillsTracker(SkillsTracker skillsTracker) {
         this.skillsTracker = skillsTracker;
+    }
+
+    public float getSleepTimeModifier() {
+        return sleepTimeModifier;
+    }
+
+    public void setSleepTimeModifier(float sleepTimeModifier) {
+        this.sleepTimeModifier = sleepTimeModifier;
     }
 }
