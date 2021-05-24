@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <output url="file://$USER_HOME$/AppData/Roaming/.tribot/bin" />
-    <output-test url="file://$USER_HOME$/AppData/Roaming/.tribot/bin" />
+    <output url="file://$USER_HOME$/.tribot/bin" />
+    <output-test url="file://$USER_HOME$/.tribot/bin" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
-      <excludeFolder url="file://$MODULE_DIR$/src/scripts/dax_api_old" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="liberica-15" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="allatori-annotations" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$USER_HOME$/Desktop/TribotDeps" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/Desktop/TribotDeps" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module" module-name="Farmer" />
+    <orderEntry type="library" name="TRiBot Dependencies" level="project" />
+    <orderEntry type="module" module-name="TribotAPI" />
   </component>
 </module>

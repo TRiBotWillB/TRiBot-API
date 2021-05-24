@@ -24,8 +24,11 @@ public class ItemHelper {
 
         if (name == null || !isCharged(i)) return 0;
 
-        int charges = Integer.parseInt(name.substring(name.indexOf("(") + 1, name.indexOf(")")));
-
-        return charges;
+        return getCharges(name);
     }
+
+    public static int getCharges(String itemName) {
+        return Integer.parseInt(itemName.substring(itemName.indexOf("(") + 1, itemName.indexOf(")")));
+    }
+
 }

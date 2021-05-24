@@ -98,6 +98,18 @@ public class BankUtil {
         return false;
     }
 
+    public static boolean withdraw(int count, RSItem item) {
+        RSItemDefinition def = item.getDefinition();
+
+        if (def == null)
+            return false;
+
+        if (def.getName() == null)
+            return false;
+
+        return withdraw(count, def.getName());
+    }
+
     public static boolean isNotedOn() {
         return Game.getSetting(115) == 1;
     }

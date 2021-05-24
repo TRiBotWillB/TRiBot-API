@@ -16,11 +16,8 @@ public class Painter {
 
     private PaintingInfo paintingInfo;
 
-    private SkillsTracker skillsTracker;
-
     public Painter(PaintingInfo paintingInfo) {
         this.paintingInfo = paintingInfo;
-        this.skillsTracker = new SkillsTracker();
     }
 
     public void paint(Graphics g) {
@@ -36,22 +33,5 @@ public class Painter {
             p.draw(g);
         }
 
-        int index = 0;
-
-        for (Skills.SKILLS skill : Skills.SKILLS.values()) {
-            if (skillsTracker != null && !skillsTracker.getXPGained(skill).equals("0")) {
-                RSInterface chatBox = Interfaces.get(162, 0);
-
-                int x = 0, y = 340;
-
-                if (chatBox != null) {
-                    x = (int) chatBox.getAbsolutePosition().getX();
-                    y = (int) chatBox.getAbsolutePosition().getY();
-                }
-
-                new PaintSkillComponent.Builder(skillsTracker, skill).setX(x).setY(y + (index * 20)).build().draw(g);
-                index++;
-            }
-        }
     }
 }

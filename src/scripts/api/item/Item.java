@@ -24,7 +24,6 @@ public class Item {
     public Item(RSItem item) {
         RSItemDefinition def = item.getDefinition();
         String name = def != null ? def.getName() : null;
-
         if (name != null) {
             this.name = name;
             this.id = item.getID();

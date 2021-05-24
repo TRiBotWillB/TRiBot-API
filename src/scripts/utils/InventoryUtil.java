@@ -1,5 +1,6 @@
 package scripts.utils;
 
+import com.google.common.base.Optional;
 import org.tribot.api.General;
 import org.tribot.api2007.Game;
 import org.tribot.api2007.Inventory;
@@ -7,8 +8,10 @@ import org.tribot.api2007.types.RSItem;
 import org.tribot.api2007.types.RSItemDefinition;
 import scripts.api.Timing07;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.function.ToIntFunction;
 
 /**
  * Created by willb on 15/01/2017.
@@ -48,10 +51,22 @@ public class InventoryUtil {
 
     public static boolean hasItemContaining(String str) {
         for (RSItem i : Inventory.getAll()) {
-            if (i.name.contains(str))
+            RSItemDefinition def = i.getDefinition();
+            String name = def != null ? def.getName() : null;
+
+            if (name != null && name.contains(str))
                 return true;
         }
         return false;
+    }
+
+    public static int getCountContaining(String str) {
+        return Arrays.stream(Optional.fromNullable(Inventory.find((rsItem -> {
+            RSItemDefinition def = rsItem.getDefinition();
+            String name = def != null ? def.getName() : null;
+
+            return name != null && name.contains(str);
+        }))).get()).mapToInt(rsItem -> rsItem.getStack()).reduce(0, (a, b) -> a + b);
     }
 
     public static void selectItem(String itemName, boolean noted) {

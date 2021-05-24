@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import netscape.javascript.JSObject;
 import org.tribot.script.Script;
 import org.tribot.script.interfaces.Ending;
 import scripts.api.gui.GUI;
@@ -23,7 +22,7 @@ public class test2 extends Script implements Ending {
         URL url = null;
 
         try {
-            url = new URL("http://localhost:8080/farmer-gui.fxml");
+            url = new URL("http://localhost:8088/farmer-gui.fxml");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
